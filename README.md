@@ -1,5 +1,6 @@
 # todo
 a command line todo list write in go.
+![image](https://travis-ci.org/hellojukay/todo.svg?branch=master)
 # usage
 ```shell
 hellojukay@local todo (master) $ ./todo --help
