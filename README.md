@@ -1,5 +1,5 @@
 # todo
-a command line todo list write in go.
+a command line todolist write in go.
 
 ![image](https://travis-ci.org/hellojukay/todo.svg?branch=master)
 # usage
