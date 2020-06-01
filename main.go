@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"text/tabwriter"
 )
 
 var add bool
@@ -54,12 +53,10 @@ func main() {
 			fmt.Errorf("read todo list failed, %s\n", err)
 			os.Exit(1)
 		}
-		var w = tabwriter.NewWriter(os.Stdout, 1, 1, 4, ' ', tabwriter.AlignRight)
 		for _, todo := range list {
-			var msg = fmt.Sprintf("%d\t%s\t%-s\t", todo.ID, todo.CreateTime, todo.Description)
-			fmt.Fprintln(w, msg)
+			var msg = fmt.Sprintf("%d  %s  %s", todo.ID, todo.CreateTime, todo.Description)
+			fmt.Fprintln(os.Stdout, msg)
 		}
-		w.Flush()
 		os.Exit(0)
 	}
 }
