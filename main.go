@@ -14,9 +14,9 @@ var msg string
 var engine *Engine
 
 func init() {
-	flag.BoolVar(&add, "a", false, "add new todo")
-	flag.IntVar(&del, "d", 0, "delete todo")
-	flag.BoolVar(&list, "list", false, "list todo list")
+	flag.BoolVar(&add, "a", false, "add a new task to todolist ")
+	flag.IntVar(&del, "d", 0, "delete task from todolist")
+	flag.BoolVar(&list, "list", false, "list todo")
 	flag.StringVar(&msg, "m", "", "task description")
 	flag.Parse()
 	var err error
