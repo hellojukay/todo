@@ -63,7 +63,13 @@ func (engine *Engine) Add(msg string) error {
 		var msg = fmt.Sprintf("read todo list failed, %s\n", err)
 		return errors.New(msg)
 	}
-	id := len(list) + 1
+	id := 0
+	for _, task := range list {
+		if id < task.ID {
+			id = task.ID
+		}
+	}
+	id = id + 1
 	var t = TODO{
 		ID:          id,
 		CreateTime:  time.Now().Format("2006-01-02"),
