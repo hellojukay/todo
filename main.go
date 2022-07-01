@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strings"
 )
 
 var add bool
@@ -21,20 +22,20 @@ func init() {
 	var err error
 	engine, err = Init()
 	if err != nil {
-		fmt.Errorf("can not init todolist, %s\n", err)
+		fmt.Printf("can not init todolist, %s\n", err)
 		os.Exit(1)
 	}
 }
 func main() {
 	if add {
 		if msg == "" {
-			fmt.Errorf("use -m provide descript for new task")
-			fmt.Errorf("try run -a -m \"task description\"")
+			fmt.Printf("use -m provide descript for new task")
+			fmt.Printf("try run -a -m \"task description\"")
 			os.Exit(1)
 		}
 		err := engine.Add(msg)
 		if err != nil {
-			fmt.Errorf("create a new task , %s\n", err)
+			fmt.Printf("create a new task , %s\n", err)
 			os.Exit(1)
 		}
 		os.Exit(0)
@@ -42,7 +43,7 @@ func main() {
 	if del != 0 {
 		err := engine.Delete(del)
 		if err != nil {
-			fmt.Errorf("delete task, %s", err)
+			fmt.Printf("delete task, %s", err)
 			os.Exit(1)
 		}
 		os.Exit(0)
@@ -50,11 +51,11 @@ func main() {
 	if list {
 		list, err := engine.ListALL()
 		if err != nil {
-			fmt.Errorf("read todo list failed, %s\n", err)
+			fmt.Printf("read todo list failed, %s\n", err)
 			os.Exit(1)
 		}
 		for _, todo := range list {
-			var msg = fmt.Sprintf("%3d  %s  %s", todo.ID, todo.CreateTime, todo.Description)
+			var msg = fmt.Sprintf("%3d  %s  %s", todo.ID, todo.CreateTime, strings.TrimPrefix(todo.Description, " "))
 			fmt.Fprintln(os.Stdout, msg)
 		}
 		os.Exit(0)
