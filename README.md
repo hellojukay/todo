@@ -2,7 +2,11 @@
 a command line todolist write in go.
 
 ![image](https://travis-ci.org/hellojukay/todo.svg?branch=master)
-# usage
+# Install
+```
+go install github.com/hellojukay/todo@latest
+```
+# Usage
 ```shell
 hellojukay@local todo (master) $ todo --help
 Usage of todo:
