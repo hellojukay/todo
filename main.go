@@ -54,7 +54,7 @@ func main() {
 			os.Exit(1)
 		}
 		for _, todo := range list {
-			var msg = fmt.Sprintf("%d  %s  %s", todo.ID, todo.CreateTime, todo.Description)
+			var msg = fmt.Sprintf("%3d  %s  %s", todo.ID, todo.CreateTime, todo.Description)
 			fmt.Fprintln(os.Stdout, msg)
 		}
 		os.Exit(0)
