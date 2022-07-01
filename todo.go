@@ -11,15 +11,19 @@ import (
 	"time"
 )
 
+// Engine Engine
 type Engine struct {
 	path string
 }
+
+// TODO TODO
 type TODO struct {
 	ID          int
 	Description string
 	CreateTime  string
 }
 
+// Init Init
 func Init() (*Engine, error) {
 	var home, err = os.UserHomeDir()
 	if err != nil {
@@ -29,7 +33,7 @@ func Init() (*Engine, error) {
 	_, err = os.Stat(filepath.Join(home, ".todo"))
 	if os.IsNotExist(err) {
 		// create todo home
-		err = crate_todo_file(path)
+		err = crateTodoFile(path)
 		if err != nil {
 			fmt.Printf("init todolist %s\n", err)
 			os.Exit(1)
@@ -40,13 +44,17 @@ func Init() (*Engine, error) {
 	}
 	return &engine, nil
 }
+
+// ListALL ListALL
 func (engine *Engine) ListALL() ([]TODO, error) {
-	return read_todo_list(engine.path)
+	return readTodoList(engine.path)
 }
+
+// Delete Delete
 func (engine *Engine) Delete(id int) error {
 	list, err := engine.ListALL()
 	if err != nil {
-		fmt.Errorf("read todo list failed, %s\n", err)
+		fmt.Printf("read todo list failed, %s\n", err)
 		os.Exit(1)
 	}
 	var newList []TODO
@@ -55,8 +63,10 @@ func (engine *Engine) Delete(id int) error {
 			newList = append(newList, todo)
 		}
 	}
-	return write_task(engine.path, newList)
+	return writeTask(engine.path, newList)
 }
+
+// Add Add
 func (engine *Engine) Add(msg string) error {
 	list, err := engine.ListALL()
 	if err != nil {
@@ -76,35 +86,38 @@ func (engine *Engine) Add(msg string) error {
 		Description: msg,
 	}
 	list = append(list, t)
-	return write_task(engine.path, list)
+	return writeTask(engine.path, list)
 }
-func crate_todo_file(path string) error {
+
+// crateTodoFile crateTodoFile
+func crateTodoFile(path string) error {
 	var dir = filepath.Dir(path)
 	err := os.MkdirAll(dir, os.ModePerm)
 	if err != nil {
 		return err
 	}
 	var list = []TODO{}
-	return write_task(path, list)
+	return writeTask(path, list)
 }
-func read_todo_list(path string) ([]TODO, error) {
-	json_bytes, err := ioutil.ReadFile(path)
+func readTodoList(path string) ([]TODO, error) {
+	jsonBytes, err := ioutil.ReadFile(path)
 	if err != nil {
 		var msg = fmt.Sprintf("can not read file %s, %s", path, err)
 		return nil, errors.New(msg)
 	}
 	var list []TODO
-	err = json.Unmarshal(json_bytes, &list)
+	err = json.Unmarshal(jsonBytes, &list)
 	if err != nil {
 		var msg = fmt.Sprintf("create todolist from %s , parse json failed %s", path, err)
 		return nil, errors.New(msg)
 	}
 	return list, nil
 }
-func write_task(path string, list []TODO) error {
-	json_bytes, _ := json.Marshal(list)
+
+func writeTask(path string, list []TODO) error {
+	jsonBytes, _ := json.Marshal(list)
 	var buffer bytes.Buffer
-	json.Indent(&buffer, json_bytes, "", "\t")
+	json.Indent(&buffer, jsonBytes, "", "\t")
 	err := ioutil.WriteFile(path, buffer.Bytes(), os.ModePerm)
 	return err
 }
